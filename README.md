@@ -9,7 +9,7 @@ This repository hosts all the code used to build our cutting-edge synthetic docu
 
 
 ## 📖 **About the Project**  
-**DeepDocGen** is a pipeline designed to overcome the challenges of limited annotated datasets in document analysis. By generating synthetic documents, this framework empowers researchers and developers to train and fine-tune object detection models with high accuracy and robustness.  
+**DeepDocGen** is a pipeline designed to overcome the challenges of limited annotated datasets in document analysis. By generating synthetic documents, DeepDocGen empowers researchers and developers to train and fine-tune object detection models with high accuracy and robustness.  
 
 
 
@@ -20,7 +20,7 @@ This repository hosts all the code used to build our cutting-edge synthetic docu
 - **[LayoutTransformer](https://github.com/kampta/DeepLayout)**: Layout Generation and Completion with Self-attention.  
 - **[LayoutFlow](https://github.com/JulianGuerreiro/LayoutFlow)**: Flow Matching for Layout Generation.  
 
-📢 *More models comong soon!*
+📢 *More models coming soon!*
 
 
 ## 🎨 **Visual Overview**  
