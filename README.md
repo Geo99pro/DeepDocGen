@@ -3,13 +3,23 @@
 This repository hosts all the code used to build our cutting-edge synthetic document pipeline. Dive into the world of synthetic document generation and object detection powered by deep learning!  
 
 ## 📝 **Paper Title**  
-**Generation and Detection of Objects in Documents by Deep Learning Neural Network Models (DeepDocGen)** 
-📢 *Our paper is coming soon! Stay tuned for the official release.*
+**Generation and Detection of Objects in Documents by Deep Learning Neural Network Models (DeepDocGen)**  
 
 ---
 
 ## 📖 **About the Project**  
-**DeepDocGen** is a pipeline designed to overcome the challenges of limited annotated datasets in document analysis. By generating synthetic documents, this framework empowers researchers and developers to train and fine-tune object detection models with high accuracy and robustness.  
+**DeepDocGen** is a revolutionary pipeline designed to overcome the challenges of limited annotated datasets in document analysis. By generating synthetic documents, this framework empowers researchers and developers to train and fine-tune object detection models with high accuracy and robustness.  
+
+---
+
+## 🛠️ **Technologies and Frameworks Used**  
+
+**DeepDocGen** integrates state-of-the-art layout generation tools to enhance synthetic document creation. These include:  
+
+- **[LayoutTransformer](https://github.com/kampta/DeepLayout)**: A self-attention-based model for layout generation and completion.  
+- **[LayoutFlow](https://github.com/JulianGuerreiro/LayoutFlow)**: A flow-matching framework for realistic layout generation.  
+
+We also leverage other advanced models and tools to ensure the quality and diversity of the generated layouts.  
 
 ---
 
