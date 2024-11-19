@@ -1,7 +1,7 @@
 import numpy as np
 import plotly.express as px
 from sklearn.manifold import TSNE
-from Pdf_annotation_pipeline.utils.embeddings_manager_engine import EmbeddingsManagerEngine
+from PDF_annotation_and_processing_pipeline.utils.embeddings_manager_engine import EmbeddingsManagerEngine
 
 #helpful link: https://medium.com/rafaeltardivo/python-entendendo-o-uso-de-args-e-kwargs-em-fun%C3%A7%C3%B5es-e-m%C3%A9todos-c8c2810e9dc8
 #https://plotly.com/python/static-image-export/

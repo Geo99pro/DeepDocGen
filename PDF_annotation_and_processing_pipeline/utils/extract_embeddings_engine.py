@@ -1,7 +1,7 @@
 import torch
 from tqdm import tqdm
 from torch.utils.data import DataLoader
-from Pdf_annotation_pipeline.utils.embeddings_manager_engine import EmbeddingsManagerEngine
+from PDF_annotation_and_processing_pipeline.utils.embeddings_manager_engine import EmbeddingsManagerEngine
 
 
 class ExtractEmbeddingsEngine:

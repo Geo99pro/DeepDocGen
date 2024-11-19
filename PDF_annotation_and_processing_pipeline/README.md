@@ -31,7 +31,7 @@ Organized in Object-Oriented Programming (OOP), the various components of the PD
 # How it works ❓
 
 ```python
-from Pdf_annotation_pipeline.pdf_annotation_pipeline import PDFAnnotationPipeline
+from PDF_annotation_and_processing_pipeline.pdf_annotation_pipeline import PDFAnnotationPipeline
 
 pdf_selector = PDFAnnotationPipeline(config_path="pipeline_config.yaml")
 pdf_selector.choose_pdf_per_group()
