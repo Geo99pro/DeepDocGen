@@ -4,24 +4,24 @@ This repository hosts all the code used to build our cutting-edge synthetic docu
 
 ## 📝 **Paper Title**  
 **Generation and Detection of Objects in Documents by Deep Learning Neural Network Models (DeepDocGen)**  
+📢 *Our paper is coming soon! Stay tuned for the official release.*  
 
----
+
 
 ## 📖 **About the Project**  
-**DeepDocGen** is a revolutionary pipeline designed to overcome the challenges of limited annotated datasets in document analysis. By generating synthetic documents, this framework empowers researchers and developers to train and fine-tune object detection models with high accuracy and robustness.  
+**DeepDocGen** is a pipeline designed to overcome the challenges of limited annotated datasets in document analysis. By generating synthetic documents, this framework empowers researchers and developers to train and fine-tune object detection models with high accuracy and robustness.  
 
----
 
-## 🛠️ **Technologies and Frameworks Used**  
 
-**DeepDocGen** integrates state-of-the-art layout generation tools to enhance synthetic document creation. These include:  
+## 🛠️ **Technologies Used**  
 
-- **[LayoutTransformer](https://github.com/kampta/DeepLayout)**: A self-attention-based model for layout generation and completion.  
-- **[LayoutFlow](https://github.com/JulianGuerreiro/LayoutFlow)**: A flow-matching framework for realistic layout generation.  
+**DeepDocGen** integrates state-of-the-art layout generation models to enhance synthetic document creation. These include:  
 
-We also leverage other advanced models and tools to ensure the quality and diversity of the generated layouts.  
+- **[LayoutTransformer](https://github.com/kampta/DeepLayout)**: Layout Generation and Completion with Self-attention.  
+- **[LayoutFlow](https://github.com/JulianGuerreiro/LayoutFlow)**: Flow Matching for Layout Generation.  
 
----
+📢 *More models comong soon!*
+
 
 ## 🎨 **Visual Overview**  
 
@@ -30,7 +30,6 @@ We also leverage other advanced models and tools to ensure the quality and diver
   <img src="DeepDocGen_v1.png" alt="DeepDocGen Workflow" width="1000">
 </p>  
 
----
 
 ### 📊 **Sample Data Created**  
 <p align="center">
