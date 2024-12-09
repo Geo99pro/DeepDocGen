@@ -1,0 +1,109 @@
+Pipeline:
+  name: DeepDocGen
+  version: 1.0
+  description: DeepDocGen pipeline for generating sintetic documents
+  git_repo: https://github.com/ICA-PUC/Synthetic_document_pipeline
+
+Pdf_selector:
+  should_perform: True
+  Parameters:
+    documents_Pdf_path: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/pdf_folder/
+    where_to_save_conversion_pdf_to_image: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/image_converted
+    desired_image_format: png
+    resize_image_for_extractor_model: [224, 224]
+    where_to_download_model: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/model
+    deep_learning_model_name: swin_t
+    deep_learning_model_weights: IMAGENET1K_V1
+    inference_batch_size: 1
+    expected_model_channel_number: 3
+    should_shuffle_dataset: False
+    should_save_embedding_extracted: True
+    where_to_save_embedding: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/
+    desired_cluster_list: [2, 20]
+    which_clustering_method: silhouette
+    n_init: auto 
+    random_state: 42
+    where_to_save_cluster_method_graph: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/
+    desired_perplexity_range_for_tsne: [5, 50, 5]
+    how_many_components: 2
+    t_SNE_initializer: pca
+    where_to_save_tSNE_div_vs_perp_graph: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/
+    where_to_save_cluster_map_image: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/
+    should_save_best_embedding: True
+    desired_dataframe_columns_name: embedding_
+    should_convert_dataframe_to_excel: True
+    where_to_save_excel: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/
+    where_to_save_pdfs_per_group: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/
+    where_to_save_log_file: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/
+
+Post_processor_to_publaynet:
+  should_perform: False
+  Parameters:
+    where_is_the_Vott_json_file: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/vott_file.json
+    image_id_starter: 1
+    annotation_id_starter: 200
+    where_to_save_publaynet_format : D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/
+    which_name_to_save: group_1
+
+Layout_generator_process:
+  should_perform: False
+  name: LayoutTransformer
+  version: 1.0
+  description: LayoutTransformer model for generating document layout
+  git_repo: https://github.com/kampta/DeepLayout
+  Parameters:
+    experience_name: Layout_Transformer_Inference_12_11_2024
+    dataset_path: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/group_1_publyanet.json
+    model_trained_path: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/model/hub/checkpoints/layout_generator.pth
+    max_length: 512
+    precision: 16
+    seed: 42
+    batch_size: 1
+    n_layers: 6
+    n_embd: 512
+    n_heads: 8
+    temper: 0.7
+    top_k: 10
+    generate_image_range: 2
+    generate_image_path: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/image_layout
+    generate_coords_path: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/image_coords
+
+Post_process_to_remove_overlap:
+  should_perform: False
+  Parameters:
+    layout_gener_coord_path: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/image_coords
+    vmin: 0.4
+    vmax: 0.5
+    where_to_save_reconstructed_image: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/Pipeline_annotation_output/
+    where_to_save_reconstructed_coords: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/Pipeline_annotation_output/
+
+Content_generator_process:
+  should_perform: False
+  Parameters:
+    test_mode: False
+    verbose: False
+    content_gen_config_path: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/content_generator/src/config.json
+    where_is_the_input: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/Pipeline_annotation_output/Reconstructed_json_files
+    where_to_save_generated_content: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/Pipeline_annotation_output/   
+
+Post_process_to_coco_format:
+  should_perform: False 
+  parameters:
+    document_image_path: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/Pipeline_annotation_output/dataset_12_11_2024
+    annotation_xml_path: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/Pipeline_annotation_output/dataset_12_11_2024
+    image_witdh: 1200
+    image_height: 1600
+    how_many_data_split: 2
+    training_percentage: 0.8
+    validation_percentage: 0.2
+    should_shuffle_data: True
+    random_seed: 42
+    which_segmentation_method: only_block
+    category_list_dict: [{"name": "text"},
+                         {"name": "title"},
+                         {"name": "list"},
+                         {"name": "table"},
+                         {"name": "image"}]
+    should_visualize_image: False
+    where_to_save_coco_format: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/Pipeline_annotation_output/
+    where_to_save_log_file: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/Pipeline_annotation_output/
