@@ -3,7 +3,6 @@ FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HOME=/root
-ENV PATH=${HOME}/miniconda3/bin:$PATH
 
 # Install libraries and dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
