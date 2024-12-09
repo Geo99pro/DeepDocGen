@@ -33,8 +33,8 @@ This repository hosts all the code used to build our cutting-edge synthetic docu
 
 ### 📊 **Sample Data Created**  
 <p align="center">
-  <img src="Example_of_data_created.png" alt="Generated Synthetic Documents All Block Segmented" width="1000">
-  <img src="Example_of_data_created_2.png" alt="Generated Synthetic Documents Each line of Block Segmented" width="1000">
+  <img src="Example_of_data_created.png" alt="Generated Synthetic Documents All Block Segmented" width="800">
+  <img src="Example_of_data_created_2.png" alt="Generated Synthetic Documents Each line of Block Segmented" width="800">
 </p>  
 
 ---
