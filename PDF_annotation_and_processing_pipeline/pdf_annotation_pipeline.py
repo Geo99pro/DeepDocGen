@@ -13,7 +13,7 @@ from PDF_annotation_and_processing_pipeline.utils.clustering_map_engine import C
 from PDF_annotation_and_processing_pipeline.utils.reduce_dimension_engine import ReduceDimensionEngine
 from PDF_annotation_and_processing_pipeline.utils.dataframe_engine import DataFrameEngine
 from PDF_annotation_and_processing_pipeline.utils.determine_each_pdf_group import DetermineEachPdfGroup
-from Post_Processing_Folder.Post_Processing_to_PubLayNet_format.publyanet_mapping_engine import PublaynetMappingEngine
+from PDF_annotation_and_processing_pipeline.pdf_annotation_pipeline import PDFAnnotationPipeline
 
 class PDFAnnotationPipeline:
     """
