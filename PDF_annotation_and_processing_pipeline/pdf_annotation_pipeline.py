@@ -13,7 +13,7 @@ from PDF_annotation_and_processing_pipeline.utils.clustering_map_engine import C
 from PDF_annotation_and_processing_pipeline.utils.reduce_dimension_engine import ReduceDimensionEngine
 from PDF_annotation_and_processing_pipeline.utils.dataframe_engine import DataFrameEngine
 from PDF_annotation_and_processing_pipeline.utils.determine_each_pdf_group import DetermineEachPdfGroup
-from PDF_annotation_and_processing_pipeline.pdf_annotation_pipeline import PDFAnnotationPipeline
+from Post_processing_folder.Post_Processing_to_PubLayNet_format.publyanet_mapping_engine import PublaynetMappingEngine
 
 class PDFAnnotationPipeline:
     """
@@ -75,6 +75,8 @@ class PDFAnnotationPipeline:
             self.save_image_path = self.config["Pdf_selector"]['Parameters']['where_to_save_conversion_pdf_to_image']
             self.desired_image_format = self.config["Pdf_selector"]['Parameters']['desired_image_format']
             self.shape_resize = tuple(map(int, self.config["Pdf_selector"]['Parameters']['resize_image_for_extractor_model']))
+            self.is_model_fine_tuned = self.config["Pdf_selector"]['Parameters']['is_model_fine_tuned']
+            self.fine_tuned_model_weight_path = self.config["Pdf_selector"]['Parameters']['fine_tuned_model_weight_path']
             self.path_to_download_model = self.config["Pdf_selector"]['Parameters']['where_to_download_model']
             self.model_name = self.config["Pdf_selector"]['Parameters']['deep_learning_model_name']
             self.model_weights = self.config["Pdf_selector"]['Parameters']['deep_learning_model_weights']
@@ -114,41 +116,54 @@ class PDFAnnotationPipeline:
             logging.info(f"PDFs metadata extracted successfully !")
 
             custom_dataset = CustomDatasetEngine(image_list=image_list, shape_resize=self.shape_resize)
-            model = PrepareModelEngine(path_to_download_model=self.path_to_download_model,
-                                        model_name=self.model_name,
-                                        model_weights=self.model_weights,
-                                        shape_resize=self.shape_resize,
-                                        batch_size=self.batch_size,
-                                        num_channels=self.num_channels,
-                                        device=self.device)
-            model_without_last_layer = model.prepare_model()
-            logging.info(f"Model prepared successfully !")
+            model = PrepareModelEngine()
+    
+            if self.is_model_fine_tuned:
+                model_without_last_layer = model.use_fine_tuned_model(model_name=self.model_name,
+                                                                      model_weights_path=self.fine_tuned_model_weight_path,
+                                                                      shape_resize=self.shape_resize,
+                                                                      batch_size=self.batch_size,
+                                                                      num_channels=self.num_channels,
+                                                                      device=self.device)
+                logging.info(f"Fine-tuned model used successfully and prepared successfully !")
 
-            embeddings_extractor = ExtractEmbeddingsEngine(dataset=custom_dataset,
+            else:
+                model_without_last_layer = model.prepare_model(path_to_download_model=self.path_to_download_model,
+                                                            model_name=self.model_name,
+                                                            model_weights=self.model_weights,
+                                                            shape_resize=self.shape_resize,
+                                                            batch_size=self.batch_size,
+                                                            num_channels=self.num_channels,
+                                                            device=self.device)
+                logging.info(f"Model prepared successfully !")
+
+            embeddings_extractor = ExtractEmbeddingsEngine()
+            embeddings_extracted = embeddings_extractor.extract_embeddings(dataset=custom_dataset,
                                                         model=model_without_last_layer,
                                                         batch_size=self.batch_size,
                                                         shuffle_dataloader=self.shuffle_dataloader,
                                                         save_embedding_extracted=self.save_embedding_extracted,
                                                         device=self.device,
                                                         path_to_save_embeddings=self.path_to_save_embeddings)
-            embeddings_extracted = embeddings_extractor.extract_embeddings()
             logging.info(f"Embeddings extracted successfully !")
 
-            get_cluster = GetClusterEngine(desired_clusters_list=self.desired_clusters_list,
-                                        embeddings_extracted=embeddings_extracted,
-                                        which_cluster_method=self.which_cluster_method,
-                                        n_init=self.n_init,
-                                        random_state=self.random_state,
-                                        path_to_save_graph=self.path_to_save_graph)
-            best_cluster = get_cluster.get_best_clusters()
-            logging.info(f"Best cluster found successfully after using the {self.which_cluster_method} method ! The best cluster is {best_cluster}.")
+            get_cluster = GetClusterEngine()
+            best_cluster = get_cluster.get_best_clusters(desired_clusters_list=self.desired_clusters_list,
+                                                        embeddings_extracted=embeddings_extracted,
+                                                        which_cluster_method=self.which_cluster_method,
+                                                        n_init=self.n_init,
+                                                        random_state=self.random_state,
+                                                        path_to_save_graph=self.path_to_save_graph)
+            logging.info(f"Best cluster found successfully after using the {self.which_cluster_method} method !"
+                         f"The best cluster is {best_cluster} and the graph is saved at {self.path_to_save_graph}.")
             
-            train_kmeans = TrainKmeansEngine(embeddings_extracted=embeddings_extracted,
-                                            best_cluster=best_cluster,
-                                            n_init=self.n_init,
-                                            random_state=self.random_state)
-            kmeans_prediction = train_kmeans.get_predicted_clusters()
-            logging.info(f"KMeans model trained successfully and predicted clusters were obtained !")
+            train_kmeans = TrainKmeansEngine()
+            kmeans_prediction = train_kmeans.get_predicted_clusters(embeddings_extracted=embeddings_extracted,
+                                                                    best_cluster=best_cluster,
+                                                                    n_init=self.n_init,
+                                                                    random_state=self.random_state)
+            logging.info(f"KMeans model trained successfully with {best_cluster} clusters !"
+                         f"And the prediction are obtained successfully !")
 
             reduce_dimension = ReduceDimensionEngine(desired_perplexity_range=self.desired_perplexity_range,
                                                     n_components=self.n_components,
