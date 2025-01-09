@@ -54,8 +54,9 @@ class PrepareModelEngine:
         print(f"Dear User, the model has been prepared for the embedding extraction. The model summary is as follows:\n {get_model_summary}")
         return model_without_last_layer
     
-    def use_fine_tuned_model(self, 
-                             model_path, 
+    def use_fine_tuned_model(self,
+                             model_name: str,
+                             model_weights_path: str, 
                              shape_resize: tuple, 
                              batch_size: int, 
                              num_channels: int, 
@@ -71,10 +72,12 @@ class PrepareModelEngine:
             - num_channels (int): is the number of channels in the input image
             - device: is the device to run the model on (e.g., 'cpu' or 'cuda')
             """
-        model = torch.load(model_path)
-        model_without_last_layer = nn.Sequential(*list(model.children())[:-1])
-        model_without_last_layer.to(device)
-        
+ 
+        fine_tuned_model = getattr(models, model_name)(weights=None).to(device)
+        model_weights = torch.load(model_weights_path, map_location=device)
+        fine_tuned_model.load_state_dict(model_weights)
+        model_without_last_layer = nn.Sequential(*list(fine_tuned_model.children())[:-1])
+                  
         for param in model_without_last_layer.parameters():
             param.requires_grad = False
 
