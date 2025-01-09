@@ -18,22 +18,19 @@ class TrainKmeansEngine:
         get_predicted_clusters(): This method is used to get the predicted clusters from the extracted embeddings.
     """
 
-    def __init__(self, embeddings_extracted: dict, best_cluster: int, n_init: str, random_state: int):
-        self.embeddings_extracted = embeddings_extracted
-        self.best_cluster = best_cluster
-        self.n_init = n_init
-        self.random_state = random_state
+    def get_predicted_clusters(self, 
+                               embeddings_extracted: dict,
+                               best_cluster: int,
+                               n_init: str,
+                               random_state: int) -> np.array:
 
-    def get_predicted_clusters(self):
-
-        if isinstance(self.embeddings_extracted, dict):
-            embeddings_extracted = np.vstack(self.embeddings_extracted['embeddings_extracted'])
-            self.embeddings_extracted = embeddings_extracted
+        if isinstance(embeddings_extracted, dict):
+            embeddings_extracted = np.vstack(embeddings_extracted['embeddings_extracted'])
 
         else:
             raise ValueError('The embeddings_extracted should be a dictionary containing the embeddings extracted. Check it out!')
 
-        print(f'The K-means algorithm is training with {self.best_cluster} clusters.\nWhich represents the best cluster based on the choosen method (elbow or silhouette).')
-        Model = KMeans(n_clusters=self.best_cluster, random_state=self.random_state, n_init=self.n_init)
-        predicted_clusters = Model.fit_predict(self.embeddings_extracted)
+        print(f'The K-means algorithm is training with {best_cluster} clusters.\nWhich represents the best cluster based on the choosen method (elbow or silhouette).')
+        Model = KMeans(n_clusters=best_cluster, random_state=random_state, n_init=n_init)
+        predicted_clusters = Model.fit_predict(embeddings_extracted)
         return predicted_clusters
