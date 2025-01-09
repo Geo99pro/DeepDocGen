@@ -11,6 +11,8 @@ Pdf_selector:
     where_to_save_conversion_pdf_to_image: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/image_converted
     desired_image_format: png
     resize_image_for_extractor_model: [224, 224]
+    is_model_fine_tuned: False
+    fine_tuned_model_weight_path: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/model_fine_tuned
     where_to_download_model: D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/Pipeline_annotation_output/model
     deep_learning_model_name: swin_t
     deep_learning_model_weights: IMAGENET1K_V1
