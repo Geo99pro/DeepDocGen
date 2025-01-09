@@ -1,3 +1,4 @@
+import os
 import numpy as np 
 from tqdm import tqdm
 from sklearn.cluster import KMeans
@@ -15,75 +16,73 @@ class GetClusterEngine:
     This class is used to get the best clusters from the extracted embeddings.
     By calling this GetClusterEngine, user creates an instance of this class.
 
-    Attributes:
-        desired_clusters_list (tuple): A tuple containing the range of clusters to be evaluated.
-        embeddings_extracted (dict): A dictionary containing the embeddings extracted.
-        which_cluster_method (str): A string containing the method to be used to get the best cluster. It can be 'elbow' or 'silhouette'.
-        n_init (int): An integer containing the number of times the K-means algorithm will be run with different centroid seeds.
-        random_state (int): An integer containing the random state to be used for the K-means algorithm.
-        path_to_save_graph (str): A string containing the path to save the graph of the best cluster based on the method used.
-
     Method:
 
         get_best_clusters(self): This method is used to get the best cluster from the extracted embeddings.
     """
 
-    def __init__(self, desired_clusters_list: tuple, embeddings_extracted: dict, which_cluster_method: str, n_init: int, random_state: int, path_to_save_graph: str):
-        self.desired_clusters_list = desired_clusters_list
-        self.embeddings_extracted = embeddings_extracted
-        self.which_cluster_method = which_cluster_method
-        self.n_init = n_init
-        self.random_state = random_state
-        self.path_to_save_graph = path_to_save_graph
+    def get_best_clusters(self,
+                          desired_clusters_list: tuple,
+                          embeddings_extracted: dict,
+                          which_cluster_method: str,
+                          n_init: int,
+                          random_state: int,
+                          path_to_save_graph: str)-> int:
 
-    def get_best_clusters(self):
         """
         This method is used to get the best cluster from the extracted embeddings.
         The method can use either elbow method or silhouette method to get the best cluster.
         It can also save the graph of the best cluster in a given path.
 
+        Args:
+            - desired_clusters_list (tuple): A tuple containing the desired clusters.
+            - embeddings_extracted (dict): A dictionary containing the embeddings extracted.
+            - which_cluster_method (str): A string containing the method to get the best cluster. It can be either elbow or silhouette.
+            - n_init (int): An integer containing the number of times the KMeans algorithm will run with different centroid seeds.
+            - random_state (int): An integer containing the random state.
+            - path_to_save_graph (str): A string containing the path to save the graph.
+
         Returns:
             best_cluster (int): An integer containing the best cluster.
         """
 
-        if isinstance(self.embeddings_extracted, dict):
-            embeddings_extracted = np.vstack(self.embeddings_extracted['embeddings_extracted'])
-            self.embeddings_extracted = embeddings_extracted
+        if isinstance(embeddings_extracted, dict):
+            embeddings_extracted = np.vstack(embeddings_extracted['embeddings_extracted'])
 
         else:
             raise ValueError('The embeddings_extracted should be a dictionary containing the embeddings extracted. Check it out !')
 
-        if self.which_cluster_method == 'elbow':
+        if which_cluster_method == 'elbow':
             print(f'Dear User, I am finding the best cluster with Elbow Method. Please wait for a while.')
             title = 'Elbow Method'
-            Kmeans_model = KMeans(random_state=self.random_state, n_init=self.n_init)
-            visualizer = KElbowVisualizer(Kmeans_model, k=self.desired_clusters_list, title=title)
-            visualizer.fit(self.embeddings_extracted)
+            Kmeans_model = KMeans(random_state=random_state, n_init=n_init)
+            visualizer = KElbowVisualizer(Kmeans_model, k=desired_clusters_list, title=title)
+            visualizer.fit(embeddings_extracted)
             best_cluster = visualizer.elbow_value_
-            visualizer.show(outpath=f"{self.path_to_save_graph}elbow_graph.png")
-            print(f'Dear User, the best cluster is {best_cluster} with Elbow Method.\nThe graph is saved at {self.path_to_save_graph}.')
+            file_path = os.path.join(path_to_save_graph, 'elbow_graph.png')
+            visualizer.show(outpath=file_path)
             return best_cluster
 
-        elif self.which_cluster_method == 'silhouette':
+        elif which_cluster_method == 'silhouette':
             title = 'Silhouette Method'
             best_cluster = None
             best_score = -1
             
             print(f'Dear User, I am finding the best cluster with Silhouette Method. Please wait for a while.')
-            for cluster in tqdm(range(self.desired_clusters_list[0], self.desired_clusters_list[1])):
-                Kmeans_model = KMeans(n_clusters=cluster, random_state=self.random_state, n_init=self.n_init)
-                labels = Kmeans_model.fit_predict(self.embeddings_extracted)
-                score = silhouette_score(self.embeddings_extracted, labels)
+            for cluster in tqdm(range(desired_clusters_list[0], desired_clusters_list[1])):
+                Kmeans_model = KMeans(n_clusters=cluster, random_state=random_state, n_init=n_init)
+                labels = Kmeans_model.fit_predict(embeddings_extracted)
+                score = silhouette_score(embeddings_extracted, labels)
 
                 if score > best_score:
                     best_score = score
                     best_cluster = cluster
 
-            Kmeans_model = KMeans(n_clusters=best_cluster, random_state=self.random_state, n_init=self.n_init)
+            Kmeans_model = KMeans(n_clusters=best_cluster, random_state=random_state, n_init=n_init)
             visualizer = SilhouetteVisualizer(Kmeans_model,  colors='yellowbrick', title=title)
-            visualizer.fit(self.embeddings_extracted)
-            visualizer.show(outpath=f"{self.path_to_save_graph}silhouette_graph.png", clear_figure=True)
-            print(f'Dear User, the best cluster is {best_cluster} with Silhouette Method.\nThe graph is saved at {self.path_to_save_graph}.')
+            visualizer.fit(embeddings_extracted)
+            file_path = os.path.join(path_to_save_graph, 'silhouette_graph.png')
+            visualizer.show(outpath=file_path)
             return best_cluster
 
         else:
