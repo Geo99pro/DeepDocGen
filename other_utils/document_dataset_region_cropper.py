@@ -134,13 +134,3 @@ def write_image(i: int,
         - None. However, it saves the cropped image.
     """
     cv2.imwrite(os.path.join(path, f'{image_name}_{i}.png'), crop)
-
-if __name__ == "__main__":
-    images_folder_path = 'path_to_images_folder'
-    annotation_folder_path = 'path_to_annotations_folder'
-    path_to_save_cropped_images = 'path_to_save_cropped_images'
-    which_public_dataset = 'publyanet'
-    crop_regions(images_folder_path,
-                 annotation_folder_path,
-                 path_to_save_cropped_images,
-                 which_public_dataset)
