@@ -18,7 +18,7 @@ transform = transforms.Compose([
 def fine_tune_swin_transformer(train_dataset_path: str,
                                val_dataset_path: str,
                                transform: transforms.Compose,
-                               model_weight_path: str,
+                               model_weights_path: str,
                                lr: float,
                                which_scheduler,
                                num_epoch: int,
@@ -37,7 +37,7 @@ def fine_tune_swin_transformer(train_dataset_path: str,
         - val_dataset_path (str): Path to the validation dataset.
         - test_dataset_path (str): Path to the test dataset.
         - transform (transforms.Compose): Transformations to be applied to the dataset.
-        - model_weight_path (str): Path to the pre-trained model weights.
+        - model_weights_path (str): Path to the pre-trained model weights.
         - lr (float): Learning rate.
         - which_scheduler (str): Scheduler to be used during training.
         - num_epoch (int): Number of epochs.
