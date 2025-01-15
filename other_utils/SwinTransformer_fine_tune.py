@@ -103,6 +103,7 @@ def fine_tune_swin_transformer(train_dataset_path: str,
     saving_path = os.path.join(path_to_save_fine_tuned_model, f"{desired_model_name}_fine_tuned.pth")
     torch.save(model_freezed.state_dict(), saving_path)
     print(f"Model saved at {saving_path}")
+    plot_metrics(num_epoch, train_losses, val_losses, train_accs, val_accs, path_to_save_fine_tuned_model)
 
 def freeze_layers(model: torch.nn.Module):
     """
