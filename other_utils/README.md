@@ -56,11 +56,17 @@ path_to_save_fine_tuned_model = str,
 desired_model_name = str,
 step_size = 8
 gamma = 0.1
-fine_tune_swin_transformer(train_dataset_path, val_dataset_path,
-                           transform, model_weights_path,
-                           lr, which_scheduler,
-                           num_epochs, batch_size,
-                           path_to_save_fine_tuned_model, step_size, gamma)
+fine_tune_swin_transformer(train_dataset_path,
+                           val_dataset_path,
+                           transform,
+                           model_weights_path,
+                           lr,
+                           which_scheduler,
+                           num_epochs,
+                           batch_size,
+                           path_to_save_fine_tuned_model,
+                           step_size,
+                           gamma)
 ```
 
 
