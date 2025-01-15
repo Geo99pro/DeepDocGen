@@ -66,7 +66,7 @@ def fine_tune_swin_transformer(train_dataset_path: str,
 
     model = swin_t()
     model.head = nn.Linear(model.head.in_features, len(train_dataset.classes))
-    state_dict = torch.load(model_weight_path, weights_only=True)
+    state_dict = torch.load(model_weights_path, weights_only=True)
     model.load_state_dict(state_dict)
 
     model_freezed = freeze_layers(model)
