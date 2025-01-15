@@ -8,8 +8,6 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR, ReduceLROnPlateau, CosineAnnealingLR
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
@@ -23,7 +21,6 @@ def fine_tune_swin_transformer(train_dataset_path: str,
                                which_scheduler,
                                num_epoch: int,
                                batch_size: int,
-                               device: torch.device,
                                path_to_save_fine_tuned_model: str,
                                desired_model_name: str,
                                **kwargs)-> None:
@@ -42,7 +39,6 @@ def fine_tune_swin_transformer(train_dataset_path: str,
         - which_scheduler (str): Scheduler to be used during training.
         - num_epoch (int): Number of epochs.
         - batch_size (int): Batch size.
-        - device (torch.device): Device to be used during training.
         - path_to_save_fine_tuned_model (str): Path to save the fine-tuned model.
         - desired_model_name (str): Name of the desired model to be fine-tuned.
         - **kwargs: Additional arguments such as parameters for the scheduler chosen.
@@ -53,6 +49,7 @@ def fine_tune_swin_transformer(train_dataset_path: str,
     Returns:
         - None
     """
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     train_dataset = datasets.ImageFolder(root=train_dataset_path, transform=transform)
     val_dataset = datasets.ImageFolder(root=val_dataset_path, transform=transform)
