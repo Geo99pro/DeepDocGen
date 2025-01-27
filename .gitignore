@@ -1,3 +1,12 @@
+.vscode/
+__pycache__/
+.vs/
+wandb/
+vott_file.json
+.cache/
+.config/
+.local/
 .git/
-test.ipynb
-Loïck Geoffrey Hodonou cover IJDAR.pdf
+.bash_history
+.netrc
+*.pdf
