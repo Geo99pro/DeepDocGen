@@ -1,0 +1,38 @@
+{
+    "IMAGES_FOLDER": "D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/src/Synthetic_document_pipeline/content_generator/content_src/generator/images/",
+    "TEXTS_FOLDER": "D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/src/Synthetic_document_pipeline/content_generator/content_src/generator/text",
+    "FONTS_FOLDER": "D:/Meus_codigos_de_mestrado/Synthetic_document_pipeline/src/Synthetic_document_pipeline/content_generator/content_src/generator/fonts",
+    "TEST_DOCUMENT": true,
+    "BOXES": true,
+    "ENABLE_MASK": false,
+    "BACKGROUND":{
+        "PROBABILITY":50,
+        "SAVE_FILE":false,
+        "ORANGE": 0,
+        "DEFAULT_COLOR": "white",
+        "COLORS": ["lightblue", "lightyellow", "wheat", "mistyrose", "lightgray", "lavender"]
+    },
+    "ROTATION_PROBABILITY":20,
+    "SET_ORIGINAL": false,
+    "SET_ORIGINAL_BOX": false,
+    "BLUR":{
+        "ENABLE":false,
+        "PROBABILITY":15,
+        "MAX_PIXEL":3
+    },
+    "JOIN_DOCS": false,
+    "PAGE_SIZE": [1200, 1600],
+    "SIZE_INCREASE":[1, 50],
+    "SIZE_REDUCE":[-20, 0],
+    "INTERLINE_SPACE":[0.1, 1],
+    "TEXT": {
+        "FONTS": ["arial", "courier", "opensans", "raleway", "roboto", "times"],
+        "MODIFIERS": ["regular", "italic", "bold"],
+        "SIZE":[0.7, 1.5],
+        "RANDOM_THICKNESS":[1, 2],
+        "RANDOM_SPACE": [0.1, 1.2]
+    },
+    "LANGUAGE": ["portuguese", "english"],
+    "SYMBOLS": [" ", "-", "_", "."],
+    "MARKERS": ["*", "-", "•"]
+}
