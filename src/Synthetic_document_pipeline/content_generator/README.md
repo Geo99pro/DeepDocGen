@@ -1,0 +1,3 @@
+# DOCUMENT CONTENT GENERATOR 🌌
+
+Hi, welcome on the DOCUMENT CONTENT GENERATOR world.

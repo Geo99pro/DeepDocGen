@@ -18,7 +18,8 @@ This repository hosts all the code used to build our cutting-edge synthetic docu
 **DeepDocGen** integrates state-of-the-art layout generation models to enhance synthetic document creation. These include:  
 
 - **[LayoutTransformer](https://github.com/kampta/DeepLayout)**: Layout Generation and Completion with Self-attention.  
-- **[LayoutFlow](https://github.com/JulianGuerreiro/LayoutFlow)**: Flow Matching for Layout Generation.  
+- **[LayoutFlow](https://github.com/JulianGuerreiro/LayoutFlow)**: Flow Matching for Layout Generation.
+- **[LayoutVAE](https://github.com/Layout-Generation/layout-generation/tree/master/LayoutVAE)** : *coming soon!*
 
 📢 *More models coming soon!*
 
@@ -27,7 +28,7 @@ This repository hosts all the code used to build our cutting-edge synthetic docu
 
 ### 🛠️ **DeepDocGen Workflow**  
 <p align="center">
-  <img src="DeepDocGen_v2.png" alt="DeepDocGen Workflow" width="1000">
+  <img src="DeepDocGen_pipeline_v2.png" alt="DeepDocGen Workflow" width="1000">
 </p>  
 
 
