@@ -43,3 +43,4 @@ This repository hosts all the code used to build our cutting-edge synthetic docu
 1. Clone this repository:  
    ```bash
    git clone https://github.com/Geo99pro/DeepDocGen.git
+   ```
