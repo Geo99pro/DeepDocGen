@@ -28,7 +28,7 @@ This repository hosts all the code used to build our cutting-edge synthetic docu
 
 ### 🛠️ **DeepDocGen Workflow**  
 <p align="center">
-  <img src="DeepDocGen_pipeline_v2.png" alt="DeepDocGen Workflow" width="1000">
+  <img src="DeepDocGen_pipeline_v2_.png" alt="DeepDocGen Workflow" width="1000">
 </p>  
 
 
