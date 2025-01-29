@@ -2,7 +2,9 @@ import os
 import cv2
 import json
 import shutil
+import numpy as np
 from glob import glob
+from PIL import Image
 
 def crop_regions(dataset_name: str,
                  image_folder_path: str,
@@ -90,6 +92,60 @@ def crop_regions(dataset_name: str,
             image_name = ".".join(os.path.basename(img_path).split('.')[:-1])
             write_image (i, image_name, subtypes_paths[subtype], crop)
             i += 1
+
+def resize_with_padding(image_folder_path: str, output_folder_path: str, target_size: tuple=(224, 224), padding_color: tuple=(0, 0, 0)) -> None:
+    """
+    This function is used to resize the images with padding.
+
+    Args:
+        - image_folder_path (str): The path to the image folder.
+        - output_folder_path (str): The path to the output folder.
+        - target_size (tuple): The target size. Default is (224, 224).
+        - padding_color (tuple): The padding color. Default is (0, 0, 0) which is black.
+
+    Returns:
+        - None. However, it saves the resized images in the output folder.
+    """
+    for img_path in glob(os.path.join(image_folder_path, '*.jpg')) + glob(os.path.join(image_folder_path, '*.png')):
+        try:
+            if not os.path.isfile(img_path):
+                raise FileNotFoundError(f'The image {img_path} does not exist. Please check the image path.')
+            
+            img_opened = Image.open(img_path).convert('RGB')
+            image = np.array(img_opened)
+
+            if image.size == 0:
+                print(f'The image {img_path} is empty or corrupted. Please check the image {img_path}.')
+                continue
+
+            height, width = image.shape[:2]
+            target_width, target_height = target_size
+
+            if height == 0 or width == 0:
+                print(f'Invalid image size for the image {img_path}. Please check the image size.')
+                continue
+            
+            scale = min(target_width / width, target_height / height)
+            new_width = int(width * scale)
+            new_height = int(height * scale)
+            resized_image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_AREA)
+
+            padd_width = (target_width - new_width) // 2
+            padd_height = (target_height - new_height) // 2
+
+            padded_image = cv2.copyMakeBorder(resized_image,
+                                            top=padd_height,
+                                            bottom=target_height - new_height - padd_height,
+                                            left=padd_width,
+                                            right=target_width - new_width - padd_width,
+                                            borderType=cv2.BORDER_CONSTANT,
+                                            value=padding_color)
+
+            saving_path = os.path.join(output_folder_path, os.path.basename(img_path))
+            padded_image_pil = Image.fromarray(padded_image)
+            padded_image_pil.save(saving_path)
+        except Exception as e:
+            print(f'An error occured while resizing the image {img_path}. The error is {e}.')           
 
 def manage_folder(folder: str) -> None:
     """
